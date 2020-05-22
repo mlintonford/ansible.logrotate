@@ -57,6 +57,24 @@
     - '{{ logrotate_applications }}'
   tags:
     - configuration
+    
+- name: 'create var_log_t selinux context on the directories where logrotate should rotate the logs'
+  become: true
+  sefcontext: 
+    target: '{{ item }}(/.*)?'
+    setype: var_log_t
+    reload: True
+    state: present
+  register: filecontext
+  with_items:
+    - '{{ logrotate_set_selinux_var_log_t_context_on_log_dirs }}'
+
+- name: 'apply var_log_t selinux context to the directories where logrotate should rotate the logs'
+  become: true
+  command: restorecon -Rv "{{ item }}"
+  with_items:
+    - '{{ logrotate_set_selinux_var_log_t_context_on_log_dirs }}'
+  when: filecontext.results[item.index]|changed
 
 - name: Symlink for hourly rotation
   file:
