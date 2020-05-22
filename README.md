@@ -91,6 +91,13 @@ More log files can be added that will logorate.
 logrotate_applications: []
 ```
 
+### selinux config 
+
+If SELinux is in enforcing mode, add your log directories here.
+```yml
+logrotate_set_selinux_var_log_t_context_on_log_dirs: []
+```
+
 #### Example
 
 The following options are available.
