@@ -49,3 +49,11 @@ logrotate_btmp:
 #           - notifempty
 #           - compress
 logrotate_applications: []
+
+# If SELinux is in enforcing mode, add your log directories to this list
+# to have selinux var_log_t context applied, allowing logrotate permission
+# to read, write the logs there.
+# An example:
+# logrotate_set_selinux_var_log_t_context_on_log_dirs:
+#   - /var/lib/tomcat/logs/catalina.out
+logrotate_set_selinux_var_log_t_context_on_log_dirs: []
